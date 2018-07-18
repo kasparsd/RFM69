@@ -313,11 +313,14 @@ void RFM69::sendFrame(uint8_t toAddress, const void* buffer, uint8_t bufferSize,
 
   // write to FIFO
   select();
-  SPI.transfer(REG_FIFO | 0x80);
-  SPI.transfer(bufferSize + 3);
-  SPI.transfer(toAddress);
-  SPI.transfer(_address);
-  SPI.transfer(CTLbyte);
+  SPI.transfer(REG_FIFO | 0x80); // Select the FIFO write register.
+
+  SPI.transfer(bufferSize + 5); // rfm69_header_t.packetLen
+  SPI.transfer(toAddress); // rfm69_header_t.recipient
+  SPI.transfer(1); // RFM69_PACKET_HEADER_VERSION = (1u) rfm69_header_t.version header version (20180128tk: >=3.0.0 fused with controlFlags)
+  SPI.transfer(_address); // rfm69_header_t.sender
+  SPI.transfer(CTLbyte); // rfm69_header_t.controlFlags
+  SPI.transfer(0); // rfm69_header_t.sequenceNumber
 
   for (uint8_t i = 0; i < bufferSize; i++)
     SPI.transfer(((uint8_t*) buffer)[i]);
