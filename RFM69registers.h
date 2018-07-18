@@ -303,8 +303,8 @@
 #define RF_FRFLSB_316             0x00
 // 433mhz band
 #define RF_FRFMSB_433             0x6C
-#define RF_FRFMID_433             0x40
-#define RF_FRFLSB_433             0x00
+#define RF_FRFMID_433             0x7A
+#define RF_FRFLSB_433             0xE1
 #define RF_FRFMSB_434             0x6C
 #define RF_FRFMID_434             0x80
 #define RF_FRFLSB_434             0x00
